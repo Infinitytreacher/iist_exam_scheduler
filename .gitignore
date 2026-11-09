@@ -1,0 +1,16 @@
+﻿__pycache__/
+*.py[cod]
+.venv/
+.test_tmp/
+.ruff_cache/
+.pytest_cache/
+.mypy_cache/
+runs/
+*.zip
+.env
+.env.*
+/registrations.xlsx
+/edited_rooms.json
+/my_config.json
+/master.xlsx
+/private/

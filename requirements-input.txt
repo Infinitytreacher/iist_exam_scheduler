@@ -1,0 +1,4 @@
+# SPDX-FileCopyrightText: 2026 Siddhant Tiwari <finrelemos@gmail.com>
+# SPDX-License-Identifier: AGPL-3.0-only
+# Optional local workbook inspection and template creation only.
+openpyxl>=3.1,<4

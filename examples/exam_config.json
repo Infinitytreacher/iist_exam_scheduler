@@ -1,0 +1,24 @@
+{
+  "registrations_complete": true,
+  "exam_type": "midsem",
+  "start_date": "2027-03-01",
+  "end_date": "2027-03-13",
+  "sessions": [
+    {
+      "name": "Morning",
+      "time": "09:30-11:30"
+    },
+    {
+      "name": "Afternoon",
+      "time": "14:00-16:00"
+    }
+  ],
+  "holidays": [],
+  "objective": "gaps",
+  "gap_target": 4,
+  "groups": [],
+  "fixed": [],
+  "room_restrictions": [],
+  "max_exams_per_slot": null,
+  "title": "Fictional example examination"
+}

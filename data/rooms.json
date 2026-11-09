@@ -1,0 +1,20 @@
+{
+  "format_version": 1,
+  "source": "IIST_institution_master.xlsx",
+  "rooms": [
+    {"room_id": "D4_C101", "label": "C 101", "block": "Aerospace Block (D4)", "priority": 1, "active": true, "capacity": 41},
+    {"room_id": "D4_C102", "label": "C 102", "block": "Aerospace Block (D4)", "priority": 2, "active": true, "capacity": 49},
+    {"room_id": "D4_C103", "label": "C 103", "block": "Aerospace Block (D4)", "priority": 3, "active": true, "capacity": 50},
+    {"room_id": "D4_C104", "label": "C 104", "block": "Aerospace Block (D4)", "priority": 4, "active": true, "capacity": 56},
+    {"room_id": "D4_C106", "label": "C 106", "block": "Aerospace Block (D4)", "priority": 5, "active": true, "capacity": 50},
+    {"room_id": "D4_C107", "label": "C 107", "block": "Aerospace Block (D4)", "priority": 6, "active": true, "capacity": 40},
+    {"room_id": "D3_L308", "label": "L 308", "block": "Aerospace Block (D3)", "priority": 7, "active": true, "capacity": 55},
+    {"room_id": "D3_C105", "label": "C 105", "block": "Avionics Block (D3)", "priority": 8, "active": true, "capacity": 62},
+    {"room_id": "D3_C106", "label": "C 106", "block": "Avionics Block (D3)", "priority": 9, "active": true, "capacity": 51},
+    {"room_id": "D3_C107", "label": "C 107", "block": "Avionics Block (D3)", "priority": 10, "active": true, "capacity": 49},
+    {"room_id": "D3_C108", "label": "C 108", "block": "Avionics Block (D3)", "priority": 11, "active": true, "capacity": 47},
+    {"room_id": "D3_C201", "label": "C 201", "block": "Avionics Block (D3)", "priority": 12, "active": true, "capacity": 30},
+    {"room_id": "D3_C204", "label": "C 204", "block": "Avionics Block (D3)", "priority": 13, "active": true, "capacity": 54},
+    {"room_id": "D1_C109", "label": "C 109", "block": "Interdisciplinary Block (D1)", "priority": 14, "active": true, "capacity": 57}
+  ]
+}

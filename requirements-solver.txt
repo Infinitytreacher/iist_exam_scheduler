@@ -1,0 +1,7 @@
+# SPDX-FileCopyrightText: 2026 Siddhant Tiwari <finrelemos@gmail.com>
+# SPDX-License-Identifier: AGPL-3.0-only
+# Install on Colab or HPC, not automatically on the laptop.
+# OR-Tools has transitive dependencies, including NumPy and pandas.
+openpyxl>=3.1,<4
+ortools>=9.10,<10
+reportlab>=4,<6

@@ -1,0 +1,56 @@
+<!doctype html>
+<!-- SPDX-FileCopyrightText: 2026 Siddhant Tiwari <finrelemos@gmail.com>
+     SPDX-License-Identifier: AGPL-3.0-only -->
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Exam Scheduler room editor</title>
+<style>
+body{font:16px system-ui,sans-serif;margin:24px;color:#182b40;max-width:1100px}button,input,select{font:inherit;margin:4px;padding:6px}button{cursor:pointer}fieldset{margin:16px 0;border:1px solid #aab8c8}label{display:inline-block;margin-right:12px}#message{white-space:pre-wrap;padding:10px;background:#eff4fa}h1{font-size:26px}#stats{font-weight:600}
+</style></head>
+<body>
+<h1>Exam Scheduler: room capacities</h1>
+<p>This editor works in your browser without a server. Open rooms.json, edit a copy, and download it. Your source file does not change automatically. Enter the approved examination capacity for each room.</p>
+<input type="file" id="file" accept=".json,application/json"><button id="save">Download rooms.json</button><button id="undo">Undo</button>
+<p id="message" role="status">Open a room data JSON file.</p>
+<div id="stats"></div>
+<fieldset><legend>Room</legend><select id="roomSelect"></select><button id="addRoom">Add room</button><button id="removeRoom">Remove selected room</button><br>
+<label>Label <input id="roomLabel"></label><label>Block <input id="block"></label><label>Priority <input id="priority" type="number" min="0" style="width:80px"></label><label>Capacity <input id="capacity" type="number" min="0" style="width:80px"></label><label><input id="active" type="checkbox">Room active</label><button id="updateRoom">Apply room changes</button></fieldset>
+<p>Inactive rooms contribute no capacity. A capacity of zero keeps a room recorded without contributing capacity.</p>
+<p>Copyright &copy; 2026 Siddhant Tiwari (<a href="mailto:finrelemos@gmail.com">finrelemos@gmail.com</a>). Licensed under AGPL-3.0-only.
+This software comes without any warranty. You can redistribute it under the terms in <a href="../LICENSE">LICENSE</a>.</p>
+<script>
+'use strict';
+const $=id=>document.getElementById(id);let data=null, selectedRoom=null, dirty=false, history=[];
+const copy=x=>JSON.parse(JSON.stringify(x));
+const message=t=>$('message').textContent=t;
+function room(){return data?.rooms.find(r=>r.room_id===selectedRoom)}
+function integer(x,min){return Number.isInteger(x)&&x>=min}
+function numberField(id){const raw=String($(id).value).trim(),value=Number(raw);if(!raw||!integer(value,0))throw Error('Enter a nonnegative whole number for '+id+'. Use 0 explicitly for zero.');return value}
+function validate(d){
+ if(!d||d.format_version!==1||!Array.isArray(d.rooms))throw Error('Expected format_version=1 and a rooms list.');
+ const ids=new Set();
+ for(const r of d.rooms){
+  if(!r||typeof r.room_id!=='string'||!r.room_id.trim()||ids.has(r.room_id))throw Error('Blank or duplicate room ID.');ids.add(r.room_id);
+  if(typeof r.label!=='string'||!r.label.trim())throw Error('Every room needs a label.');
+  if(typeof r.active!=='boolean'||!integer(r.priority,0)||!integer(r.capacity,0))throw Error('Room priority and capacity must be nonnegative integers, and active must be true or false.');
+ }
+}
+function mutate(fn){if(!data){message('Open rooms.json first.');return}const previous=copy(data);try{fn();validate(data);history.push(previous);if(history.length>100)history.shift();dirty=true;render();message('Change applied to this browser copy. Download the JSON to save it.')}catch(e){data=previous;render();message(e.message)}}
+function render(){
+ $('roomSelect').replaceChildren();
+ if(!data)return;
+ if(!room())selectedRoom=data.rooms[0]?.room_id||null;
+ for(const r of data.rooms){const o=document.createElement('option');o.value=r.room_id;o.textContent=r.room_id+' | '+r.label+(r.active?'':' [inactive]');o.selected=r.room_id===selectedRoom;$('roomSelect').append(o)}
+ const r=room();
+ $('roomLabel').value=r?.label||'';$('block').value=r?.block||'';$('priority').value=r?.priority??0;$('capacity').value=r?.capacity??0;$('active').checked=r?.active??false;
+ const total=data.rooms.filter(r=>r.active).reduce((n,r)=>n+r.capacity,0);
+ $('stats').textContent='Room ID: '+(r?.room_id||'none')+' | Room capacity: '+(r?.capacity||0)+' | Active institution capacity: '+total+' | Recorded rooms: '+data.rooms.length;
+}
+$('file').onchange=async e=>{const file=e.target.files[0];if(!file)return;try{const value=JSON.parse(await file.text());validate(value);if(dirty&&!confirm('Discard unsaved browser changes?'))return;data=value;history=[];selectedRoom=data.rooms[0]?.room_id||null;dirty=false;render();message('Loaded '+file.name+'. The source file is unchanged.')}catch(err){message('Cannot open room data: '+err.message)}};
+$('roomSelect').onchange=()=>{selectedRoom=$('roomSelect').value;render()};
+$('addRoom').onclick=()=>{if(!data)return message('Open rooms.json first.');const id=prompt('New stable room ID (for example D3_C301):');if(!id)return;const label=prompt('Room label:',id);if(!label)return;mutate(()=>{data.rooms.push({room_id:id.trim(),label:label.trim(),block:'',priority:data.rooms.length+1,capacity:0,active:true});selectedRoom=id.trim()})};
+$('removeRoom').onclick=()=>{const r=room();if(r&&confirm('Remove '+r.room_id+' from this copy?'))mutate(()=>{data.rooms=data.rooms.filter(x=>x!==r);selectedRoom=null})};
+$('updateRoom').onclick=()=>{if(!room())return;mutate(()=>Object.assign(room(),{label:$('roomLabel').value.trim(),block:$('block').value.trim(),priority:numberField('priority'),capacity:numberField('capacity'),active:$('active').checked}))};
+$('undo').onclick=()=>{if(!history.length)return message('No earlier browser change.');data=history.pop();dirty=true;render();message('Last change undone. Download to save.')};
+$('save').onclick=()=>{if(!data)return message('Open rooms.json first.');try{validate(data);const blob=new Blob([JSON.stringify(data,null,2)+'\n'],{type:'application/json'}),a=document.createElement('a'),url=URL.createObjectURL(blob);a.href=url;a.download='rooms.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);dirty=false;message('Download requested. Keep the original file until you review the new room data. Use --rooms with the downloaded file.')}catch(e){message(e.message)}};
+window.addEventListener('beforeunload',e=>{if(dirty){e.preventDefault();e.returnValue=''}});
+</script></body></html>

@@ -1,0 +1,23 @@
+Exam Scheduler
+Author: Siddhant Tiwari <finrelemos@gmail.com>
+Copyright (c) 2026 Siddhant Tiwari <finrelemos@gmail.com>
+
+This project is licensed under the GNU Affero General Public License,
+version 3 only (SPDX identifier: AGPL-3.0-only).
+See LICENSE for the complete terms, including the official, unmodified license text.
+
+AGPL-3.0-only covers all copyrightable project-owned files in this repository
+and its distributions, unless a file explicitly states otherwise.
+This includes source code, scripts, tests, documentation, assets,
+configuration files, and project-owned example files and data.
+Files do not need an individual license header for this license to apply.
+
+This software is provided without any warranty, as stated in LICENSE.
+The Free Software Foundation authored the license document.
+Siddhant Tiwari <finrelemos@gmail.com> is the author of Exam Scheduler.
+
+Third-party dependencies and materials retain their own licenses and notices.
+Institutional data and user-supplied registration files retain their
+existing ownership and permissions.
+Running the software does not, by itself, place user data or output under AGPL-3.0-only.
+Output is covered only if its content constitutes a covered work under the license.
