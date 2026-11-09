@@ -5,7 +5,7 @@ Author: Siddhant Tiwari ([finrelemos@gmail.com](mailto:finrelemos@gmail.com)).
 Exam Scheduler creates examination timetables from student registrations and approved room capacities.
 The suite includes a timetable generator, a timetable editor, and an offline room editor.
 It produces Excel timetables, a timetable PDF, and examination attendance PDFs.
-It checks total room capacity but does not assign candidates or examinations to individual rooms.
+It checks total room capacity but does not assign candidates or examinations to individual rooms. Google CP-SAT is used as the solver.
 
 [Install and Use](#install-and-use) · [Real registration data](#prepare-real-registration-data) · [Configuration](#configure-an-examination-period) · [Results](#read-and-keep-the-results) · [Timetable editing](#edit-a-timetable) · [Colab](#use-google-colab) · [HPC](#use-an-hpc-system) · [Troubleshooting](#troubleshooting) · [License](#license-and-author)
 
